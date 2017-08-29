@@ -181,7 +181,7 @@ public class AddressBook {
     /**
      * List of all persons in the address book.
      */
-    private static final ArrayList<String[]> ALL_PERSONS = new ArrayList<>();
+    private static final ArrayList<String[]>    ALL_PERSONS = new ArrayList<>();
 
     /**
      * Stores the most recent list of persons shown to the user as a result of a user command.
@@ -486,12 +486,25 @@ public class AddressBook {
         final ArrayList<String[]> matchedPersons = new ArrayList<>();
         for (String[] person : getAllPersonsInAddressBook()) {
             final Set<String> wordsInName = new HashSet<>(splitByWhitespace(getNameFromPerson(person)));
-            if (!Collections.disjoint(wordsInName, keywords)) {
+            if (matches(wordsInName, keywords)) {
                 matchedPersons.add(person);
             }
         }
         return matchedPersons;
     }
+
+    private static boolean matches(Collection<String> personName, Collection<String> keywords ) {
+        for (String element1 : personName ) {
+            for (String element2 : keywords) {
+                if (element1.equalsIgnoreCase(element2)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+
 
     /**
      * Deletes person identified using last displayed index.
